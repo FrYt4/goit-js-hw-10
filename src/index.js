@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { fetchBreeds, fetchCatByBreed } from './cat-api';
 
 const breedSelect = document.querySelector('.breed-select');
@@ -5,13 +6,17 @@ const catInfo = document.querySelector('.cat-info');
 const loader = document.querySelector('.loader');
 
 try {
-  loader.classList.remove('hidden');
+  loader.classList.replace('loader', 'hidden');
   fetchBreeds().then(data => renderSelect(data));
 } catch (error) {
   console.log(error);
 }
 
 function renderSelect(breeds) {
+  while (breedSelect.firstChild) {
+    breedSelect.removeChild(breedSelect.firstChild);
+  }
+
   const markup = breeds
     .map(({ id, name }) => {
       return `<option value="${id}">${name}</option>`;
@@ -27,6 +32,7 @@ breedSelect.addEventListener('change', e => {
 });
 
 function renderCat(catData) {
+    catInfo.innerHTML = ''; 
   const { url } = catData;
   const { description, name, temperament } = catData.breeds[0];
   catInfo.insertAdjacentHTML(
