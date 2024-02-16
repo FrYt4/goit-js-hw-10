@@ -27,11 +27,11 @@ function renderSelect(breeds) {
     })
     .join('');
   breedSelect.insertAdjacentHTML('beforeend', markup);
-  loader.classList.add('hidden');
+  loader.classList.add('is-hidden');
 }
 
 breedSelect.addEventListener('change', e => {
-  loader.classList.remove('hidden');
+  loader.classList.remove('is-hidden');
   fetchCatByBreed(e.target.value).then(data => renderCat(data[0]));
 });
 
@@ -48,5 +48,5 @@ function renderCat(catData) {
         <p><strong>Temperament:</strong> ${temperament}</p>
     </div>`
   );
-  loader.classList.add('hidden');
+  loader.classList.add('is-hidden');
 }
