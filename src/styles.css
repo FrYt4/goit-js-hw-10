@@ -30,3 +30,18 @@
       75%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 100%)}
       100% {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 0)}
   }
+
+  img{
+    display: flex;
+    width: 55%;
+  }
+
+  body{
+    background-color: hsl(189, 100%, 89%);
+    text-align: center;
+    font-size: 2rem;
+  }
+
+  .cat-info{
+    display: fle;
+  }
