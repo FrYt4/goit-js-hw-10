@@ -10,7 +10,7 @@ const catInfo = document.querySelector('.cat-info');
 const loader = document.querySelector('.loader');
 const error = document.querySelector('.error')
 try {
-  loader.classList.replace('loader', 'hidden');
+ loader.classList.add('is-hidden');
   fetchBreeds().then(data => renderSelect(data));
 } catch (error) {
   console.log(error);
