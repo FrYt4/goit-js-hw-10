@@ -32,16 +32,25 @@
   }
 
   img{
-    display: flex;
-    width: 55%;
+
+    width: 50%;
+    align-items: center;
+
   }
 
   body{
-    background-color: hsl(189, 100%, 89%);
+    background-image: url(image/images-background.jpg);
+    background-repeat: no-repeat;
+    background-size: 100%;
     text-align: center;
     font-size: 2rem;
+    align-items: center;
+    color: #dddddd;
+
   }
 
+
   .cat-info{
-    display: fle;
+display:inline-block;
+
   }
