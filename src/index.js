@@ -4,41 +4,65 @@ import SlimSelect from 'slim-select'
 import 'slim-select/dist/slimselect.css';
 import Notiflix from 'notiflix';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import { hideLoader } from './showHideEl';
+import { showLoader } from './showHideEl';
+import { hidecatInfo } from './showHideEl';
+import { showcatInfo } from './showHideEl';
 
 const breedSelect = document.querySelector('.breed-select');
 const catInfo = document.querySelector('.cat-info');
 const loader = document.querySelector('.loader');
 const error = document.querySelector('.error')
+loader.style.display = 'none';
+error.style.display = 'none';
 try {
- loader.classList.add('is-hidden');
-  fetchBreeds().then(data => renderSelect(data));
+
+  fetchBreeds()
+  .then(data => renderSelect(data));
 } catch (error) {
   console.log(error);
 }
 
 function renderSelect(breeds) {
-  while (breedSelect.firstChild) {
-    breedSelect.removeChild(breedSelect.firstChild);
-  }
-
   const markup = breeds
     .map(({ id, name }) => {
       return `<option value="${id}">${name}</option>`;
     })
     .join('');
   breedSelect.insertAdjacentHTML('beforeend', markup);
-  loader.classList.add('is-hidden');
+
 }
 
-breedSelect.addEventListener('change', e => {
-  loader.classList.remove('is-hidden');
-  fetchCatByBreed(e.target.value).then(data => renderCat(data[0]));
+breedSelect.addEventListener('change', async (e) => {
+  try {
+    const breedId = breedSelect.value;
+
+    showLoader();
+    hidecatInfo();
+
+    const data = await fetchCatByBreed(breedId);
+
+    if (data.length === 0) {
+      error.style.display = 'block'
+      hideLoader();
+      return Notiflix.Notify.warning('Sorry, nothing was found for the breed.');
+      
+    }
+    error.style.display = 'none'
+    hideLoader();
+    showcatInfo();
+    renderCat(data[0]);
+  } catch (error) {
+    console.error(error);
+  }
 });
 
+
 function renderCat(catData) {
-    catInfo.innerHTML = ''; 
   const { url } = catData;
   const { description, name, temperament } = catData.breeds[0];
+
+  catInfo.innerHTML = '';
   catInfo.insertAdjacentHTML(
     'beforeend',
     `<div>
@@ -48,5 +72,4 @@ function renderCat(catData) {
         <p><strong>Temperament:</strong> ${temperament}</p>
     </div>`
   );
-  loader.classList.add('is-hidden');
 }
